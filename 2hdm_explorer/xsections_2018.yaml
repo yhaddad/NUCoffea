@@ -1,0 +1,744 @@
+WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8:
+  br: 1.0
+  kr: 1.20
+  xsec: 4.658000000000000
+DY1JetsToLL_M-50_LHEZpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 9.480238706703638
+DY1JetsToLL_M-50_LHEZpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 1.092796793620117
+DY1JetsToLL_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.120689583175169
+DY1JetsToLL_M-50_LHEZpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 313.608562849390125
+DY2JetsToLL_M-50_LHEZpT_150-250_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 15.683493299980881
+DY2JetsToLL_M-50_LHEZpT_250-400_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 2.741273678370510
+DY2JetsToLL_M-50_LHEZpT_400-inf_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.446062646660613
+DY2JetsToLL_M-50_LHEZpT_50-150_TuneCP5_13TeV-amcnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 169.646518824308913
+DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 6545.062778193921076
+TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 88.29
+WZTo3LNu_TuneCP5_13TeV-powheg-pythia8: 
+  br: 1.0
+  kr: 1.20
+  xsec: 4.658000000000000
+ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.600800000000000
+ZZTo2L2Nu_TuneCP5_13TeV_powheg_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.600800000000000
+WWTo2L2Nu_NNPDF31_TuneCP5_13TeV-powheg-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 11.080000000000004
+GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 0.0031942
+GluGluToContinToZZTo2e2nu_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 17.723399006136571
+GluGluToContinToZZTo2e2tau_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 3.287763101653022
+GluGluToContinToZZTo2mu2nu_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 17.725335790940576
+GluGluToContinToZZTo2mu2tau_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 3.289473207009740
+GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 1.397460298310003
+GluGluToContinToZZTo4mu_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 1.399213095028897
+GluGluToContinToZZTo4tau_13TeV_MCFM701_pythia8: 
+  br: 1.0
+  kr: 0.001
+  xsec: 1.394319612255764
+WZZ_TuneCP5_13TeV-amcatnlo-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.057010000000000
+ZZZ_TuneCP5_13TeV-amcatnlo-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.014730000000000
+WWZ_TuneCP5_13TeV-amcatnlo-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.167600000000000
+TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.218156891833184
+TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.440367567607570
+TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.243200000000000
+TTZToQQ_TuneCP5_13TeV-amcatnlo-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.510400000000000
+ZZTo4L_TuneCP5_13TeV_powheg_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 1.325000000000000
+ZZTo4L_TuneCP5_13TeV_powheg_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 1.325000000000000
+ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 34.969999999999999
+ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 34.910000000000004
+ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 3.702752518362292
+WZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8: 
+  br: 1.0
+  kr: 1.20
+  xsec: 6.411065047615857
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-100_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.2939
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-510:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00003348 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-300:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001756 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-100:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002612 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-450:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0004108 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1500_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0006194 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-50:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002685 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-2000_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0001751 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002708 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-10_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.8192 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-750_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.006565 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-250_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0815 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1750_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0003225 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-200:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002297 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-10:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002705 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1250_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001257 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-350:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001377 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-600:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000006785 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-400:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0009139 
+DMSimp_MonoZLL_NLO_Axial_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-490:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00008869
+DMSimp_MonoZLL_NLO_Axial_TuneCP6_GQ0p25_GDM1p0_MY1-500_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.01927
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1750_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0003222
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-750_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.006436
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-450:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001818
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-200:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002632
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-100_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.02948
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-400:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00219
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-2000_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0001743
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-50:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002669
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-500_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.01838
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-490:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001053
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1500_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0006182
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-300:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00252
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-10:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002684
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-10_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.8406
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-100:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002671
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002689
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-350:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002399
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-250_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.08151
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1250_MXd-1:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00124
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-510:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.0003101
+DMSimp_MonoZLL_NLO_Vector_TuneCP3_GQ0p25_GDM1p0_MY1-1000_MXd-600:
+  br: 1.0
+  kr: 1.0
+  xsec: 0.00003208
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-1000_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000007917046420
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-100_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001718656597104
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-10_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002013547719358
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-150_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001508708019019
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-200_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001269243027909
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-250_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001026595968614
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-300_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000806197584641
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-350_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000480267331741
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-400_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000248675004088
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-450_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000162663706141
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-500_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000113223302554
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-50_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001889430584007
+DMSimp_MonoZLL_Pseudo_TuneCP5_GQ1p0_GDM1p0_MY0-750_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000026120097047
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-1000_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000008357471992
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-100_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001528795451661
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-10_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001782357069809
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-150_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001349555971537
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-200_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001142714891753
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-250_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000927357430831
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-300_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000730292457720
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-350_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000560559476165
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-400_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000349502480811
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-450_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000221009721426
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-500_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000146397966283
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-50_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001669449251648
+DMSimp_MonoZLL_Scalar_TuneCP5_GQ1p0_GDM1p0_MY0-750_mxd-1: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000029085201646
+ADDMonoZ_MD_1_d_2: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.192030738063914
+ADDMonoZ_MD_1_d_3: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.512791940078820
+ADDMonoZ_MD_1_d_4: 
+  br: 1.0
+  kr: 1.0
+  xsec: 1.649037221188880
+ADDMonoZ_MD_1_d_5: 
+  br: 1.0
+  kr: 1.0
+  xsec: 5.914724065571205
+ADDMonoZ_MD_1_d_6: 
+  br: 1.0
+  kr: 1.0
+  xsec: 23.627171879231849
+ADDMonoZ_MD_1_d_7: 
+  br: 1.0
+  kr: 1.0
+  xsec: 101.896816514136020
+ADDMonoZ_MD_1_d_8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 471.295556042241628
+ADDMonoZ_MD_2_d_2: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.011983374372043
+ADDMonoZ_MD_2_d_3: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.016002917011589
+ADDMonoZ_MD_2_d_4: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.025652359956827
+ADDMonoZ_MD_2_d_5: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.046242367074265
+ADDMonoZ_MD_2_d_6: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.091340095073955
+ADDMonoZ_MD_2_d_7: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.198130213169614
+ADDMonoZ_MD_2_d_8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.459774714341567
+ADDMonoZ_MD_3_d_2: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002365880798455
+ADDMonoZ_MD_3_d_3: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002120390885834
+ADDMonoZ_MD_3_d_4: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002257245920936
+ADDMonoZ_MD_3_d_5: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002713755833686
+ADDMonoZ_MD_3_d_6: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.003617779427516
+ADDMonoZ_MD_3_d_7: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.005165820641130
+ADDMonoZ_MD_3_d_8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.008021225465078
+Unpart_ZToEEAndMuMu_SU_0_dU_1p01_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 2.254811668137521
+Unpart_ZToEEAndMuMu_SU_0_dU_1p02_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 3.736256168155077
+Unpart_ZToEEAndMuMu_SU_0_dU_1p04_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 5.161007670619189
+Unpart_ZToEEAndMuMu_SU_0_dU_1p06_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 5.335350234339767
+Unpart_ZToEEAndMuMu_SU_0_dU_1p09_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 4.641694506391622
+Unpart_ZToEEAndMuMu_SU_0_dU_1p10_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 4.290083604507911
+Unpart_ZToEEAndMuMu_SU_0_dU_1p20_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 1.431430529635487
+Unpart_ZToEEAndMuMu_SU_0_dU_1p30_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.378832699490018
+Unpart_ZToEEAndMuMu_SU_0_dU_1p40_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.094624705708494
+Unpart_ZToEEAndMuMu_SU_0_dU_1p50_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.023451546484137
+Unpart_ZToEEAndMuMu_SU_0_dU_1p60_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.005856055859912
+Unpart_ZToEEAndMuMu_SU_0_dU_1p70_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001477939124315
+Unpart_ZToEEAndMuMu_SU_0_dU_1p80_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000381732753796
+Unpart_ZToEEAndMuMu_SU_0_dU_1p90_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000101546768559
+Unpart_ZToEEAndMuMu_SU_0_dU_2p00_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000027364944545
+Unpart_ZToEEAndMuMu_SU_0_dU_2p20_LU_15_TuneCP5_13TeV_pythia8: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000002140546937
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1000_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001619154054189
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1000_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001415546462456
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1000_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001169362069359
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1000_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000812647798021
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1000_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000562058677454
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1200_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000831451988747
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1200_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000715267394235
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1200_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000584413034502
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1200_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000418827294196
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1200_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000311092860338
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1400_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000520083749011
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1400_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000432543048011
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1400_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000338503439713
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1400_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000232700300396
+Pseudoscalar2HDM_MonoZLL_mScan_mH-1400_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000173174358124
+Pseudoscalar2HDM_MonoZLL_mScan_mH-200_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.171283441155192
+Pseudoscalar2HDM_MonoZLL_mScan_mH-300_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.176190838393298
+Pseudoscalar2HDM_MonoZLL_mScan_mH-300_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.108227787586240
+Pseudoscalar2HDM_MonoZLL_mScan_mH-400_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.066023160657861
+Pseudoscalar2HDM_MonoZLL_mScan_mH-400_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.033879983152524
+Pseudoscalar2HDM_MonoZLL_mScan_mH-400_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001503643738392
+Pseudoscalar2HDM_MonoZLL_mScan_mH-500_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.024139711238673
+Pseudoscalar2HDM_MonoZLL_mScan_mH-500_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.016330149675640
+Pseudoscalar2HDM_MonoZLL_mScan_mH-500_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.006438583642845
+Pseudoscalar2HDM_MonoZLL_mScan_mH-500_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000307988225796
+Pseudoscalar2HDM_MonoZLL_mScan_mH-600_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.011872760752733
+Pseudoscalar2HDM_MonoZLL_mScan_mH-600_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.009213055500603
+Pseudoscalar2HDM_MonoZLL_mScan_mH-600_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.005509485720256
+Pseudoscalar2HDM_MonoZLL_mScan_mH-600_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001750003504946
+Pseudoscalar2HDM_MonoZLL_mScan_mH-600_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000112703781727
+Pseudoscalar2HDM_MonoZLL_mScan_mH-700_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.006544931629110
+Pseudoscalar2HDM_MonoZLL_mScan_mH-700_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.005415309525285
+Pseudoscalar2HDM_MonoZLL_mScan_mH-700_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.003859675514136
+Pseudoscalar2HDM_MonoZLL_mScan_mH-700_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001936170263667
+Pseudoscalar2HDM_MonoZLL_mScan_mH-700_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000612657942287
+Pseudoscalar2HDM_MonoZLL_mScan_mH-800_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.003886068585747
+Pseudoscalar2HDM_MonoZLL_mScan_mH-800_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.003320161741203
+Pseudoscalar2HDM_MonoZLL_mScan_mH-800_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002577158972098
+Pseudoscalar2HDM_MonoZLL_mScan_mH-800_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001564716758929
+Pseudoscalar2HDM_MonoZLL_mScan_mH-800_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000791354923797
+Pseudoscalar2HDM_MonoZLL_mScan_mH-900_ma-100: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002443575944930
+Pseudoscalar2HDM_MonoZLL_mScan_mH-900_ma-200: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.002128827607342
+Pseudoscalar2HDM_MonoZLL_mScan_mH-900_ma-300: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001713706261624
+Pseudoscalar2HDM_MonoZLL_mScan_mH-900_ma-400: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.001145885902706
+Pseudoscalar2HDM_MonoZLL_mScan_mH-900_ma-500: 
+  br: 1.0
+  kr: 1.0
+  xsec: 0.000713802959316
