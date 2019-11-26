@@ -49,6 +49,10 @@ def get_datasets():
                 merged_dataset(pattern="WZTo") + merged_dataset(pattern="WWTo") +
                 merged_dataset(pattern="ZZTo") + merged_dataset(pattern="ZZZ") + merged_dataset(pattern="WWZ") +
                 merged_dataset(pattern="WZZ") + merged_dataset(pattern="JetsToLL_M")),
+        "TT": merged_dataset(pattern="TT"), "ST": merged_dataset(pattern="ST"),
+        "WZTo": merged_dataset(pattern="WZTo"), "WWTo": merged_dataset(pattern="WWTo"),
+        "ZZTo": merged_dataset(pattern="ZZTo"), "ZZZ": merged_dataset(pattern="ZZZ"), "WWZ": merged_dataset(pattern="WWZ"),
+        "WZZ": merged_dataset(pattern="WZZ"), "JetsToLL_M": merged_dataset(pattern="JetsToLL_M"),
 
         "Pseudoscalar_mH-1000_ma-100": merged_dataset(pattern="mH-1000_ma-100"),
         "Pseudoscalar_mH-1000_ma-200": merged_dataset(pattern="mH-1000_ma-200"),
