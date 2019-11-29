@@ -9,7 +9,7 @@ dir_monoZ = '/eos/cms/store/group/phys_exotica/monoZ/redemption2018/'
 def locate_root_files():
     """Locates selected root files containing data and writes a yaml file with paths."""
     dict_files = {}
-    print(('Walking through directory:', dir_monoZ))
+    print(f'Walking through directory: {dir_monoZ}')
     for path, subdirs, files in os.walk(dir_monoZ):
         sub_path_splited = path.split(dir_monoZ)[1].split('/')
         dataset = sub_path_splited[0]
