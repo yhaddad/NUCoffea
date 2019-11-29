@@ -41,14 +41,15 @@ BASE_PYTHON = /bin/env python3
 
 PYTHON = $(PYTHON_ENV) $(venv)/bin/python
 
-.PHONY: help clean WS_proc 2hdm
+.PHONY: help clean WS_proc 2hdm get-upstream
 
 help:
 	@echo "available targets:"
-	@echo "  WS_proc    submit WS_proc to condor."
-	@echo "  2hdm       run 2hdm explorer."
-	@echo "  clean      clean up '$(PREFIX)'."
-	@echo "  help       show this message."
+	@echo "  WS_proc                        submit WS_proc to condor."
+	@echo "  2hdm                           run 2hdm explorer."
+	@echo "  clean                          clean up '$(PREFIX)'."
+	@echo "  get-upstream [branch=master]   incorporate force pushed changes"
+	@echo "  help                           show this message."
 
 clean:
 	rm -rf $(PREFIX)
@@ -101,3 +102,12 @@ WS_proc: $(voms) $(MonoZ)/condor/condor_run_WS_proc
 2hdm: $(coffea_lock)
 	cd $(PREFIX) && $(PYTHON) -m 2hdm_explorer \
 	| tee $@.log
+
+branch = $(or $(branch), master)
+get-upstream:
+	git fetch && \
+	git stash && \
+	git checkout origin/$(branch) && \
+	git branch -D $(branch) && \
+	git checkout $(branch) && \
+	git stash pop
