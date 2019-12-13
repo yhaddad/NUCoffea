@@ -1,22 +1,21 @@
 import os
 import re
 
-import ROOT
 from coffea.processor import run_uproot_job, futures_executor
 
 from WSProducer import MonoZ
 
-ROOT.PyConfig.IgnoreCommandLineOptions = True
+import uproot
 import argparse
 
 parser = argparse.ArgumentParser("")
-parser.add_argument('-isMC', type=int, default=1, help="")
-parser.add_argument('-jobNum', type=int, default=1, help="")
-parser.add_argument('-era', type=str, default="2018", help="")
-parser.add_argument('-doSyst', type=int, default=1, help="")
-parser.add_argument('-infile', type=str, default=None, help="")
-parser.add_argument('-dataset', type=str, default="X", help="")
-parser.add_argument('-nevt', type=str, default=-1, help="")
+parser.add_argument('--isMC', type=int, default=1, help="")
+parser.add_argument('--jobNum', type=int, default=1, help="")
+parser.add_argument('--era', type=str, default="2018", help="")
+parser.add_argument('--doSyst', type=int, default=1, help="")
+parser.add_argument('--infile', type=str, default=None, help="")
+parser.add_argument('--dataset', type=str, default="X", help="")
+parser.add_argument('--nevt', type=str, default=-1, help="")
 
 options = parser.parse_args()
 
@@ -32,11 +31,10 @@ def inputfile(nanofile):
             forceaaa):
         if not tested:
             print("Testing file open")
-            testfile = ROOT.TFile.Open(pfn)
-            if testfile and testfile.IsOpen():
+            testfile = uproot.open(pfn)
+            if testfile:
                 print("Test OK")
                 nanofile = pfn
-                testfile.Close()
             else:
                 if "root://cms-xrd-global.cern.ch/" not in nanofile:
                     nanofile = "root://cms-xrd-global.cern.ch/" + nanofile
@@ -49,7 +47,8 @@ def inputfile(nanofile):
     return nanofile
 
 
-options.infile = inputfile(options.infile)
+# options.infile = inputfile(options.infile)
+# edmFileUtil in CMSSW...
 
 print(f"""
 ---------------------------
@@ -94,13 +93,15 @@ ext_syst = ["puWeight", "PDF", "MuonSF", "ElecronSF", "EWK", "nvtxWeight", "Trig
 
 modules_era = []
 
-modules_era.append(MonoZ(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset))
+modules_era.append(MonoZ(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset,
+                         haddFileName="tree_%s.root" % str(options.jobNum)))
 
 for sys in pro_syst:
     for var in ["Up", "Down"]:
         # modules_era.append(MonoZProducer(options.isMC, str(options.era), do_syst=1, syst_var=sys+var))
         modules_era.append(MonoZ(options.isMC, str(options.era), do_syst=1,
-                                 syst_var=sys + var, sample=options.dataset))
+                                 syst_var=sys + var, sample=options.dataset,
+                                 haddFileName="tree_%s.root" % str(options.jobNum)))
 
 for sys in ext_syst:
     for var in ["Up", "Down"]:
@@ -109,7 +110,8 @@ for sys in ext_syst:
                 options.isMC, str(options.era),
                 do_syst=1, syst_var=sys + var,
                 weight_syst=True,
-                sample=options.dataset
+                sample=options.dataset,
+                haddFileName="tree_%s.root" % str(options.jobNum),
             )
         )
 
@@ -120,9 +122,9 @@ for sys in ext_syst:
 #   modules_era.append(VBSProducer(isMC=options.isMC, era=str(options.era), do_syst=1, syst_var=''))
 
 for i in modules_era:
-    print(("modules : ", i))
+    print("modules : ", i)
 
-print(("Selection : ", pre_selection))
+print("Selection : ", pre_selection)
 
 # p = PostProcessor(
 #    ".", [options.infile],
@@ -139,7 +141,7 @@ print(("Selection : ", pre_selection))
 # p.run()
 for instance in modules_era:
     run_uproot_job(
-        {instance.sample: options.infile},
+        {instance.sample: [options.infile]},
         treename='Events',
         processor_instance=instance,
         executor=futures_executor,

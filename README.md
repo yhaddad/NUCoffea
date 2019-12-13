@@ -11,5 +11,4 @@ make
 
 - Python 3
 - HTCondor cluster
-- scram / CMSSW
 

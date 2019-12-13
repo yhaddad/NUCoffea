@@ -8,11 +8,11 @@ import time
 logging.basicConfig(level=logging.DEBUG)
 
 script_TEMPLATE = """#!/bin/bash
-
+set -e
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 export SCRAM_ARCH=slc6_amd64_gcc630
 
-cd {cmssw_base}/src/
+cd {cmssw_base}
 eval `scramv1 runtime -sh`
 echo
 echo $_CONDOR_SCRATCH_DIR
@@ -25,7 +25,7 @@ echo "----- CMSSW BASE, python path, pwd:"
 echo "+ CMSSW_BASE  = $CMSSW_BASE"
 echo "+ PYTHON_PATH = $PYTHON_PATH"
 echo "+ PWD         = $PWD"
-python3 condor_WS_proc.py --jobNum=$1 --isMC={ismc} --era={era} --infile=$2
+{cmssw_base}/venv/bin/python condor_WS_proc.py --jobNum $1 --isMC {ismc} --era {era} --infile $2
 echo "----- transfer output to eos :"
 xrdcp -s -f tree_$1.root {eosdir}
 echo "----- directory after running :"
@@ -42,7 +42,7 @@ output                = $(ClusterId).$(ProcId).out
 error                 = $(ClusterId).$(ProcId).err
 log                   = $(ClusterId).$(ProcId).log
 initialdir            = {jobdir}
-transfer_output_files = ""
+transfer_output_files = ""{jobdir}/inputfiles.dat
 +JobFlavour           = "{queue}"
 
 queue jobid from {jobdir}/inputfiles.dat
@@ -64,8 +64,8 @@ if __name__ == '__main__':
     # Making sure that the proxy is good
     cmssw_base = os.environ['CMSSW_BASE']
     eosbase = "/eos/cms/store/group/phys_exotica/monoZ/{tag}/{sample}/"
-    group_base = "group/phys_exotica"
-    my_base = "user/jabernha"
+    group_base = "cms/store/group/phys_exotica"
+    my_base = "user/j/jabernha"
 
     with open(options.input, 'r') as stream:
         for sample in stream.read().split('\n'):
@@ -98,9 +98,9 @@ if __name__ == '__main__':
             eosoutdir = eosbase.format(tag=options.tag, sample=sample_name).replace(group_base, my_base)
             # eosoutdir = eosbase.format(tag=options.tag+"_WS",sample=sample_name)
             # crete a directory on eos
-            if '/eos/cms' in eosoutdir:
-                eosoutdir = eosoutdir.replace('/eos/cms', 'root://eoscms.cern.ch/')
-                print("eos mkdir -p {}".format(eosoutdir.replace('root://eoscms.cern.ch/', '')))
+            if '/eos' in eosoutdir:
+               # eosoutdir = eosoutdir.replace('/eos/cms', 'root://eoscms.cern.ch/')
+                print(" mkdir -p {}".format(eosoutdir))#.replace('root://eoscms.cern.ch/', '')))
             else:
                 raise NameError(eosoutdir)
 
@@ -117,9 +117,9 @@ if __name__ == '__main__':
             with open(os.path.join(jobs_dir, "condor.sub"), "w") as condorfile:
                 condor = condor_TEMPLATE.format(
                     transfer_file=",".join([
-                        "../condor_WS_proc.py",
-                        "../data.txt",
-                        "../WSProducer.py",
+                        "../../condor_WS_proc.py",
+                        "../../data.txt",
+                        "../../WSProducer.py",
                     ]),
                     jobdir=jobs_dir,
                     queue=options.queue
