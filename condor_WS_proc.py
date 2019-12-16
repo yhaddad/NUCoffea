@@ -101,7 +101,7 @@ for sys in pro_syst:
         # modules_era.append(MonoZProducer(options.isMC, str(options.era), do_syst=1, syst_var=sys+var))
         modules_era.append(MonoZ(options.isMC, str(options.era), do_syst=1,
                                  syst_var=sys + var, sample=options.dataset,
-                                 haddFileName="tree_%s.root" % str(options.jobNum)))
+                                 haddFileName=f"tree_{options.jobNum}_{sys}{var}.root"))
 
 for sys in ext_syst:
     for var in ["Up", "Down"]:
@@ -111,7 +111,7 @@ for sys in ext_syst:
                 do_syst=1, syst_var=sys + var,
                 weight_syst=True,
                 sample=options.dataset,
-                haddFileName="tree_%s.root" % str(options.jobNum),
+                haddFileName=f"tree_{options.jobNum}_{sys}{var}.root",
             )
         )
 
