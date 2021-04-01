@@ -97,7 +97,7 @@ f = recreate("tree_%s_WS.root" % str(options.jobNum))
 for instance in modules_era:
     output = run_uproot_job(
         {instance.sample: [options.infile]},
-        treename='events',
+        treename='Events',
         processor_instance=instance,
         executor=futures_executor,
         executor_args={'workers': 10},
@@ -107,24 +107,24 @@ for instance in modules_era:
         f[h] = export1d(hist)
         print(f'wrote {h} to tree_{options.jobNum}_WS.root')
 
-#modules_gensum = []
-#
-#modules_gensum.append(GenSumWeight(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset,
-#                         haddFileName="tree_%s.root" % str(options.jobNum)))
-#
-#for instance in modules_gensum:
-#    output = run_uproot_job(
-#        {instance.sample: [options.infile]},
-#        treename='Runs',
-#        processor_instance=instance,
-#        executor=futures_executor,
-#        executor_args={'workers': 10},
-#        chunksize=500000
-#    )
-#    for h, hist in output.items():
-#        f[h] = export1d(hist)
-#        print(f'wrote {h} to tree_{options.jobNum}_WS.root')
-#
+modules_gensum = []
+
+modules_gensum.append(GenSumWeight(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset,
+                         haddFileName="tree_%s.root" % str(options.jobNum)))
+
+for instance in modules_gensum:
+    output = run_uproot_job(
+        {instance.sample: [options.infile]},
+        treename='Runs',
+        processor_instance=instance,
+        executor=futures_executor,
+        executor_args={'workers': 10},
+        chunksize=500000
+    )
+    for h, hist in output.items():
+        f[h] = export1d(hist)
+        print(f'wrote {h} to tree_{options.jobNum}_WS.root')
+
 #
 #elapsed = time.time() - tstart
 #print ("elapsed time is:", elapsed)
