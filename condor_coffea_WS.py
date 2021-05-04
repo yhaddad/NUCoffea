@@ -3,8 +3,8 @@ import re
 
 from coffea.processor import run_uproot_job, futures_executor
 
-from PhysicsTools.MonoZ.WSProducer import *
-from PhysicsTools.MonoZ.SumWeights import *
+from PhysicsTools.MonoZCoffea_Coffea.WSProducer import *
+from PhysicsTools.MonoZCoffea_Coffea.SumWeights import *
 
 import uproot
 import argparse
@@ -58,8 +58,8 @@ if options.isMC:
     if options.dataset == "X":
         options.dataset = options.infile
         options.dataset = options.dataset.split('/store')[1].split("/")
-        condtag_ = options.dataset[5]
-        options.dataset = options.dataset[5]
+        condtag_ = options.dataset[6]
+        options.dataset = options.dataset[6]
     print(("[check] condtag_ == ", condtag_))
     print(("[check] dataset  == ", options.dataset))
 else:
@@ -67,7 +67,7 @@ else:
         options.dataset = options.infile
         options.dataset = options.dataset.split('/store')[1].split("/")
         condtag_ = options.dataset[2]
-        options.dataset = options.dataset[5]
+        options.dataset = options.dataset[6]
     else:
         options.dataset = options.dataset.split("/")
         condtag_ = options.dataset[2]
@@ -138,23 +138,24 @@ for instance in modules_era:
         f[h] = export1d(hist)
         print(f'wrote {h} to tree_{options.jobNum}_WS.root')
 
-modules_gensum = []
+if options.isMC:
+    modules_gensum = []
 
-modules_gensum.append(GenSumWeight(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset,
-                         haddFileName="tree_%s.root" % str(options.jobNum)))
+    modules_gensum.append(GenSumWeight(isMC=options.isMC, era=int(options.era), do_syst=1, syst_var='', sample=options.dataset,
+                             haddFileName="tree_%s.root" % str(options.jobNum)))
 
-for instance in modules_gensum:
-    output = run_uproot_job(
-        {instance.sample: [options.infile]},
-        treename='Runs',
-        processor_instance=instance,
-        executor=futures_executor,
-        executor_args={'workers': 10},
-        chunksize=500000
-    )
-    for h, hist in output.items():
-        f[h] = export1d(hist)
-        print(f'wrote {h} to tree_{options.jobNum}_WS.root')
+    for instance in modules_gensum:
+        output = run_uproot_job(
+            {instance.sample: [options.infile]},
+            treename='Runs',
+            processor_instance=instance,
+            executor=futures_executor,
+            executor_args={'workers': 10},
+            chunksize=500000
+        ) 
+        for h, hist in output.items():
+            f[h] = export1d(hist)
+            print(f'wrote {h} to tree_{options.jobNum}_WS.root')
 
 
 elapsed = time.time() - tstart

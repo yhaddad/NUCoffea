@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "condor_coffea_WS.py", line 4, in <module>
+    from coffea.processor import run_uproot_job, futures_executor
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/__init__.py", line 39, in <module>
+    from . import (
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/hist/__init__.py", line 13, in <module>
+    from .hist_tools import (
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/hist/hist_tools.py", line 4, in <module>
+    from coffea.processor.accumulator import AccumulatorABC
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/processor/__init__.py", line 6, in <module>
+    from .dataframe import (
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/processor/dataframe.py", line 4, in <module>
+    from coffea.util import deprecate_detected_awkward0
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/coffea/util.py", line 8, in <module>
+    import numba
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/numba/__init__.py", line 19, in <module>
+    from numba.core import config
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/numba/core/config.py", line 16, in <module>
+    import llvmlite.binding as ll
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/llvmlite/binding/__init__.py", line 4, in <module>
+    from .dylib import *
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/llvmlite/binding/dylib.py", line 3, in <module>
+    from llvmlite.binding import ffi
+  File "/afs/cern.ch/user/y/yixiao/.local/lib/python3.6/site-packages/llvmlite/binding/ffi.py", line 153, in <module>
+    raise OSError("Could not load shared object file: {}".format(_lib_name))
+OSError: Could not load shared object file: libllvmlite.so
+xrdcp: No such file or directory processing tree_63.root
