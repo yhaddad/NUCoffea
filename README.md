@@ -1,4 +1,4 @@
-# MonoZCoffea
+# NUCoffea
 MonoZ analysis using [Coffea](https://coffeateam.github.io/coffea/)
 
 ## Quick start
