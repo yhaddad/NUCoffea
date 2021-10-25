@@ -1,5 +1,0 @@
-  File "condor_coffea_WS.py", line 86
-    """)
-      ^
-SyntaxError: invalid syntax
-xrdcp: No such file or directory processing tree_75.root

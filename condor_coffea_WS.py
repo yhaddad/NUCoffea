@@ -135,6 +135,7 @@ for instance in modules_era:
         chunksize=500000
     )
     for h, hist in output.items():
+        print(h, hist)
         f[h] = export1d(hist)
         print(f'wrote {h} to tree_{options.jobNum}_WS.root')
 
