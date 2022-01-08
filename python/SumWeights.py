@@ -5,7 +5,7 @@ Workspace producers using coffea. Need the GenSumWeight to do normalization prop
 
 from coffea import hist, processor
 from coffea.processor import ProcessorABC, LazyDataFrame, dict_accumulator
-from uproot import recreate
+from uproot3 import recreate
 import numpy as np
 
 class GenSumWeight(ProcessorABC):

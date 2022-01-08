@@ -51,7 +51,7 @@ queue jobid from {jobdir}/inputfiles.dat
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Famous Submitter')
     parser.add_argument("-i", "--input", type=str, default="data.txt", help="input datasets", required=True)
-    parser.add_argument("-t", "--tag", type=str, default="Exorcism", help="production tag", required=True)
+    parser.add_argument("-t", "--tag", type=str, default="SGP2016", help="production tag", required=True)
     parser.add_argument("-isMC", "--isMC", type=int, default=1, help="")
     parser.add_argument("-q", "--queue", type=str, default="testmatch", help="")
     parser.add_argument("-e", "--era", type=str, default="2017", help="")
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     # Making sure that the proxy is good
     cmssw_base = os.environ['CMSSW_BASE']
-    eosbase = "/eos/cms/store/group/phys_exotica/monoZ/{tag}/{sample}/"
+    eosbase = "/eos/cms/store/group/phys_smp/ZZTo2L2NNu/VBS/{tag}/{sample}/"
     group_base = "cms/store/group/phys_exotica"
     my_base = "user/j/jabernha"
 
