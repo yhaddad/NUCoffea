@@ -165,10 +165,10 @@ def main():
                     condor = condor_TEMPLATE.format(
                         transfer_file= ",".join([
                             "../condor_coffea_WS_VBS.py",
-                            "../BDTmodel"
-#                            "../nnmodel",
-#                            "../exactly2Jets.h5",
- #                           "../atLeast3Jets.h5"
+#                            "../BDTmodel"
+                            "../nnmodel",
+                            "../exactly2Jets.h5",
+                            "../atLeast3Jets.h5"
 #                           "../xsections_2017.yaml",
 #                           "../combineHLT_Run2.yaml",
 #                           "../keep_and_drop_WS.txt",
@@ -180,12 +180,11 @@ def main():
                 else:
                     condor = condor_TEMPLATE.format(
                         transfer_file= ",".join([
-                            "../condor_coffea_WS_ZZinclusive.py",
-#                            "../nnmodel",
-#                            "../exactly2Jets.h5",
-#                            "../atLeast3Jets.h5"
+#                            "../condor_coffea_WS_ZZinclusive.py",
+                            "../nnmodel",
+                            "../exactly2Jets.h5",
+                            "../atLeast3Jets.h5"
 #                           "../xsections_2017.yaml",
-#                           "../combineHLT_Run2.yaml",
 #                           "../keep_and_drop_WS.txt",
 #                           "../haddnano.py"
                         ]),

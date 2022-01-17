@@ -7,18 +7,14 @@ from coffea.processor import ProcessorABC, LazyDataFrame, dict_accumulator
 from uproot3 import recreate
 import awkward as ak
 import numpy as np
-import pandas as pd
 import awkward
 import yaml
 
-#from tensorflow import keras
-#from keras import backend as K
-#from keras.layers import Input,InputLayer, Activation, Dense, Dropout, BatchNormalization, Lambda
-#from keras.models import Sequential, Model, clone_model
-#from keras.optimizers import SGD, Adam, Adadelta, Adagrad
-
-#from sklearn.model_selection import train_test_split
-import xgboost as xgb
+from tensorflow import keras
+from keras import backend as K
+from keras.layers import Input,InputLayer, Activation, Dense, Dropout, BatchNormalization, Lambda
+from keras.models import Sequential, Model, clone_model
+from keras.optimizers import SGD, Adam, Adadelta, Adagrad
 
 class WSProducer(ProcessorABC):
     """
@@ -51,20 +47,70 @@ class WSProducer(ProcessorABC):
     @property
     def accumulator(self):
         return self._accumulator
+    def absolute_BinaryCrossentropy (self,y_true, y_pred, weights): 
+        error = K.abs(K.sum(weights*(K.maximum(y_pred,0) - y_pred*y_true + K.log(1+K.exp(-1*K.abs(y_pred)))),axis=-1))
+        return error
+
+    def custom_relu(self,X):
+        return K.maximum(K.minimum(X,100-3*X),0)
+
+    def get_models(self):
+        NINPUT_3J = 27
+        NINPUT_2J = 22
+
+        print('====================')
+        print('loading models...')
+        print('====================')
+
+        nn_input_3J = Input((NINPUT_3J,))
+        y_true_3J = Input((1,),name='y_true_3J')
+        weights_3J = Input((1,), name='weights_3J')
+
+        nn_input_2J = Input((NINPUT_2J,))
+        y_true_2J = Input((1,),name='y_true_2J')
+        weights_2J = Input((1,), name='weights_2J')
+
+        h_3J = BatchNormalization()(nn_input_3J)
+        X_3J = Dense((200), name='hidden_1')(h_3J)
+        h_3J = Lambda(self.custom_relu, name='custom_relu')(X_3J)
+        (out_z_3J)=Dense((1), name='out_z_3J')(h_3J)
+        out_3J = Activation('sigmoid',name='out_3J')(out_z_3J)
+
+        h_2J = BatchNormalization()(nn_input_2J)
+        X_2J = Dense((100), name='hidden_12')(h_2J)
+        h_2J = Lambda(self.custom_relu, name='custom_relu2')(X_2J)
+        (out_z_2J) = Dense((1), name='out_z_2J')(h_2J)
+        out_2J = Activation('sigmoid',name='out_2J')(out_z_2J)
+
+        model_3J = Model(inputs=[nn_input_3J, weights_3J, y_true_3J], outputs=out_3J)
+        model_2J = Model(inputs=[nn_input_2J, weights_2J, y_true_2J], outputs=out_2J)
+
+        model_3J.add_loss(self.absolute_BinaryCrossentropy(y_true_3J, out_z_3J, weights_3J))
+        model_2J.add_loss(self.absolute_BinaryCrossentropy(y_true_2J, out_z_2J, weights_2J))
+
+        optim_3J = Adam(lr = 0.001)
+        optim_2J = Adam(lr = 0.001)
+
+        model_3J.compile(optimizer=optim_3J, loss=None, weighted_metrics=['accuracy'])
+        model_2J.compile(optimizer=optim_2J, loss=None, weighted_metrics=['accuracy'])
+
+        return model_3J, model_2J
 
     def process(self, df, *args):
         output = self.accumulator.identity()
 
         weight = self.weighting(df)
         # NN scores (array)
-        features = ['met_pt','lead_jet_pt','trail_jet_pt','dijet_Mjj','dijet_abs_dEta','dijet_Zep']
-        X = df[features]
-        X = ak.to_numpy(X).tolist()
-        #load BDT model
-        model = xgb.XGBClassifier()
-        model.load_model('BDTmodel/BDTtest')
-        bdtscore=model.predict_proba(X)[:, 1]
-        df['nnscore']=bdtscore
+        nn_score_2J,nn_score_3J = self.get_nn_scores(df)
+        case_2J=df['ngood_jets'] == 2
+        case_3J=df['ngood_jets'] >=3
+        nn_score=[-1]*len(case_2J)
+        for i in range(len(case_2J)):
+            if case_2J[i]:
+                nn_score[i]=nn_score_2J[i][0]
+            elif case_3J[i]:
+                nn_score[i]=nn_score_3J[i][0]
+        df['nnscore']=nn_score
 
         for h, hist in list(self.histograms.items()):
             for region in hist['region']:
@@ -174,7 +220,7 @@ class MonoZ(WSProducer):
         'h_nnscore' : {
             'target': 'nnscore',
             'name': 'nnscore',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','signal-01J','signal-2J','signal-3J','catBDT'],
+            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','signal-01J','signal-2J','signal-3J','cat4Jet'],
             'axis': {'label': 'nnscore','n_or_arr':150, 'lo':-1.5, 'hi':1.5}
         },
 
@@ -194,13 +240,6 @@ class MonoZ(WSProducer):
                 "abs(event.delta_phi_ZMet{sys} ) > 0.5",
                 "event.dijet_Mjj{sys}                  > 400",
                 "event.dijet_abs_dEta{sys}             > 2.5"
-            ],
-            "catBDT" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.dijet_abs_dEta{sys}       >=2.5" ,
-                "event.ngood_bjets{sys} == 0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.dijet_Mjj{sys}            > 400",
             ],
             "cat4Jet" : [
                 "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
@@ -322,6 +361,77 @@ class MonoZ(WSProducer):
             ],
 
         }
+
+    def get_nn_scores(self, event):
+        feature_2j = ['lep_category','ngood_bjets','lead_jet_pt','trail_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta']
+        feature_3j = ['lep_category','ngood_jets','ngood_bjets','lead_jet_pt','trail_jet_pt','third_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','third_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','third_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta']
+        # hard coded
+        print('###########################')
+        print(self.era)
+        print(type(self.era))
+        if int(self.era) == 2016:
+            year = 0
+        elif int(self.era) == 2017:
+            year = 1
+        elif int(self.era) == 2018:
+            year = 2
+        else:
+            print('error in designated year')
+        print(year)
+        print(type(year))
+        model_3J, model_2J = self.get_models()
+
+        model_2J.load_weights('exactly2Jets.h5')
+        model_3J.load_weights('atLeast3Jets.h5')
+
+        df_2J = event[feature_2j]
+#        print(df_2J)
+        df_2J = ak.to_pandas(df_2J)
+        df_2J['dilep_abs_dEta'] = abs(df_2J['leading_lep_eta']- df_2J['trailing_lep_eta'])
+#        print("df_2J_2")
+#        print(df_2J)
+        df_2J['year'] = year
+#        print("df_2J_plusyear")
+#        print(df_2J)
+        df_2J = df_2J[['lep_category','ngood_bjets','lead_jet_pt','trail_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta','year']]
+#        print("df_2J_sorted")
+#        print(df_2J)
+        df_2J['filler_weight'] = -1
+        df_2J['filler_target'] = -1
+#
+        input_2J = df_2J.to_numpy()
+#        print("input_2J")
+#        print(input_2J)
+        nn_input_1_2J = input_2J[:,0:22]
+        nn_input_2_2J = input_2J[:,22]
+        nn_input_3_2J = input_2J[:,23]
+        print("nn_input_1_2J")
+        print(nn_input_1_2J)
+#        print("nn_input_2_2J")
+#        print(nn_input_2_2J)
+#        print("nn_input_3_2J")
+#        print(nn_input_3_2J)
+
+        nn_score_2J = model_2J.predict([nn_input_1_2J,nn_input_2_2J,nn_input_3_2J])
+        print(nn_score_2J)
+        df_3J = event[feature_3j]
+        df_3J = ak.to_pandas(df_3J)
+        df_3J['year'] = year
+        df_3J['dilep_abs_dEta'] = abs(df_3J['leading_lep_eta']- df_3J['trailing_lep_eta'])
+        df_3J = df_3J[['lep_category','ngood_jets','ngood_bjets','lead_jet_pt','trail_jet_pt','third_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','third_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','third_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta','dilep_abs_dEta','year']]
+        df_3J['filler_weight'] = -1
+        df_3J['filler_target'] = -1
+#        print(df_3J)
+
+        input_3J = df_3J.to_numpy()
+
+        nn_input_1_3J = input_3J[:,0:27]
+        nn_input_2_3J = input_3J[:,27]
+        nn_input_3_3J = input_3J[:,28]
+
+        nn_score_3J = model_3J.predict([nn_input_1_3J,nn_input_2_3J,nn_input_3_3J])
+        return nn_score_2J, nn_score_3J
+
 
     def weighting(self, event):
         weight = 1.0

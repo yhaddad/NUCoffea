@@ -148,6 +148,18 @@ class MonoZ(WSProducer):
             'region': ['signal','catSignal-0jet','catSignal-1jet','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
             'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
         },
+        'h_phi_Lmet': {
+            'target': 'delta_phi_ZMet',
+            'name': 'phizmet',
+            'region': ['catDYLmet'],
+            'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
+        },
+        'h_phi_Hmet': {
+            'target': 'delta_phi_ZMet',
+            'name': 'phizmet',
+            'region': ['catDYHmet'],
+            'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
+        },
         'h_njet': {
             'target': 'ngood_jets',
             'name': 'njet',
@@ -266,6 +278,34 @@ class MonoZ(WSProducer):
                 "event.ngood_bjets{sys} ==  0" ,
                 "event.nhad_taus{sys}   ==  0" ,
                 "event.met_pt{sys}      >  50" ,
+                "event.met_pt{sys}      <  100" ,
+                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
+                "abs(1 - event.sca_balance{sys}) < 0.4",
+                "abs(event.delta_phi_j_met{sys}) > 0.5",
+                "event.delta_R_ll{sys}           < 1.8"
+            ],
+            "catDYLmet" : [
+                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
+                "event.Z_pt{sys}        >  60" ,
+                "abs(event.Z_mass{sys} - 91.1876) < 15",
+                "event.ngood_jets{sys}   <= 1" ,
+                "event.ngood_bjets{sys} ==  0" ,
+                "event.nhad_taus{sys}   ==  0" ,
+                "event.met_pt{sys}      >  50" ,
+                "event.met_pt{sys}      <  70" ,
+                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
+                "abs(1 - event.sca_balance{sys}) < 0.4",
+                "abs(event.delta_phi_j_met{sys}) > 0.5",
+                "event.delta_R_ll{sys}           < 1.8"
+            ],
+            "catDYHmet" : [
+                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
+                "event.Z_pt{sys}        >  60" ,
+                "abs(event.Z_mass{sys} - 91.1876) < 15",
+                "event.ngood_jets{sys}   <= 1" ,
+                "event.ngood_bjets{sys} ==  0" ,
+                "event.nhad_taus{sys}   ==  0" ,
+                "event.met_pt{sys}      >  70" ,
                 "event.met_pt{sys}      <  100" ,
                 "abs(event.delta_phi_ZMet{sys} ) < 0.5",
                 "abs(1 - event.sca_balance{sys}) < 0.4",
