@@ -136,98 +136,75 @@ class WSProducer(ProcessorABC):
     
 class MonoZ(WSProducer):
     histograms = {
-        'h_bal': {
-            'target': 'sca_balance',
-            'name': 'balance',  # name to write to histogram
-            'region': ['signal'],
-            'axis': {'label': 'sca_balance', 'n_or_arr': 100, 'lo': 0, 'hi': 2}
-        },
+        # 'h_bal': {
+        #     'target': 'sca_balance',
+        #     'name': 'balance',  # name to write to histogram
+        #     'region': ['signal'],
+        #     'axis': {'label': 'sca_balance', 'n_or_arr': 100, 'lo': 0, 'hi': 2}
+        # },
         'h_phi': {
             'target': 'delta_phi_ZMet',
             'name': 'phizmet',
-            'region': ['signal','catSignal-0jet','catSignal-1jet','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
-            'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
-        },
-        'h_phi_Lmet': {
-            'target': 'delta_phi_ZMet',
-            'name': 'phizmet',
-            'region': ['catDYLmet'],
-            'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
-        },
-        'h_phi_Hmet': {
-            'target': 'delta_phi_ZMet',
-            'name': 'phizmet',
-            'region': ['catDYHmet'],
+            'region': ['catSignal-0jet','catSignal-1jet','catDY','cat3L','cat4L','catEM'],
             'axis': {'label': 'delta_phi_ZMet','n_or_arr': 16,'lo': -3.2, 'hi': 3.2}
         },
         'h_njet': {
             'target': 'ngood_jets',
             'name': 'njet',
-            'region': ['catDY','signal'],
+            'region': ['catSignal-0jet','catSignal-1jet','catDY','cat3L','cat4L','catEM'],
             'axis': {'label': 'ngood_jets', 'n_or_arr': 6, 'lo': 0, 'hi': 6}
         },
 
         'h_dijet_abs_dEta': {
             'target': 'dijet_abs_dEta',
             'name': 'dijet_abs_dEta',
-            'region': ['signal','catSignal-0jet','catSignal-1jet','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
+            'region': ['catSignal-0jet','catSignal-1jet','catDY','cat3L','cat4L','catEM'],
             'axis': {'label':  'dijet_abs_dEta' , 'n_or_arr':20, 'lo':0, 'hi':10}
         }, 
         
-#        'h_dijet_Mjj': {
-#            'target': 'dijet_Mjj',
-#            'name': 'dijet_Mjj',
-#            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM'],
-#            'axis': {'label': 'dijet_Mjj', 'n_or_arr':15, 'lo':0, 'hi':1500}
-#       }, 
         'h_measMET': {
             'target': 'met_pt',
             'name': 'measMET',
-            'region': ['signal','catSignal-0jet','catSignal-1jet','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
+            'region': ['catSignal-0jet','catSignal-1jet','catDY','catEM'],
             'axis': {'label': 'met_pt','n_or_arr': [50, 100, 125, 150, 175, 200, 250, 300, 350, 400, 500, 600, 1000]}
         },
         'h_emuMET': {
             'target': 'emulatedMET',
             'name': 'measMET',
-            'region': ['cat3L','signal','catSignal-0jet','catSignal-1jet',
-                       'catWW',
-                       'catEM','cat4Jet'],
+            'region': ['cat3L','cat4L'],
             'axis': {'label': 'emulated_met_pt','n_or_arr': [50, 100, 125, 150, 175, 200, 250, 300, 350, 400, 500, 600, 1000]}
         },
         'h_mT': {
             'target': 'MT',
             'name': 'measMT',
-            'region': ['signal','catSignal-0jet','catSignal-1jet','cat3L','catNRB','catTOP','catDY','catEM','catWW','cat4Jet'],
+            'region': ['catSignal-0jet','catSignal-1jet','catDY','cat3L','cat4L','catEM'],
             'axis': {'label': 'MET','n_or_arr': [0, 100, 200, 250, 300, 350, 400, 500, 600, 700, 800, 1000, 1200, 2000]}
         },
         'h_emu_mT': {
             'target': 'MT',
             'name': 'emuMT',
-            'region': ['signal','catSignal-0jet','catSignal-1jet',
-                       'catNRB','catTOP','catDY',
-                       'cat3L',
-                       'catWW',
-                       'catEM','cat4Jet'],
+            'region': ['cat3L','cat4L'],
             'axis': {'label': 'emulated_MT','n_or_arr': [0, 100, 200, 250, 300, 350, 400, 500, 600, 700, 800, 1000, 1200, 2000]}
         },
         'h_Z_pt': {
             'target': 'Z_pt',
             'name': 'Z_pt',
-            'region': ['catNRB','catTOP','catDY',
-                       'signal','catSignal-0jet','catSignal-1jet',
+            'region': ['catDY',
+                       'catSignal-0jet','catSignal-1jet',
                        'catEM',
-                       'cat3L','catWW','cat4Jet'],
+                       'cat3L',
+                       'cat4L'],
             'axis': {'label': 'Z_pt','n_or_arr': 20, 'lo':0, 'hi':1000}
         },
-        'h_Z_mass': {
-            'target': 'Z_mass',
-            'name': 'Z_mass',
-            'region': ['catNRB','catTOP','catDY',
-                       'signal','catSignal-0jet','catSignal-1jet',
-                       'catEM',
-                       'cat3L','catWW','cat4Jet'],
-            'axis': {'label': 'Z_mass','n_or_arr': 80, 'lo':50, 'hi':130}
-        },
+        # 'h_Z_mass': {
+        #     'target': 'Z_mass',
+        #     'name': 'Z_mass',
+        #     'region': ['catDY',
+        #                'catSignal-0jet','catSignal-1jet',
+        #                'catEM',
+        #                'cat3L',],
+        #     'axis': {'label': 'Z_mass','n_or_arr': 80, 'lo':50, 'hi':130}
+        # },
 #        'h_nnscore' : {
 #            'target': 'nnscore',
 #            'name': 'nnscore',
@@ -243,18 +220,6 @@ class MonoZ(WSProducer):
                 "event.Z_pt{sys}        >  45" ,
                 "abs(event.Z_mass{sys} - 91.1876) < 15",
                 "event.ngood_jets{sys}  <= 1" ,
-                "event.ngood_bjets{sys} ==  0" ,
-#                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-            ],
-            "cat4Jet" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  45" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  >= 4" ,
                 "event.ngood_bjets{sys} ==  0" ,
 #                "event.nhad_taus{sys}   ==  0" ,
                 "event.met_pt{sys}      >  70" ,
@@ -284,34 +249,6 @@ class MonoZ(WSProducer):
                 "abs(event.delta_phi_j_met{sys}) > 0.5",
                 "event.delta_R_ll{sys}           < 1.8"
             ],
-            "catDYLmet" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}   <= 1" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  50" ,
-                "event.met_pt{sys}      <  70" ,
-                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
-                "abs(1 - event.sca_balance{sys}) < 0.4",
-                "abs(event.delta_phi_j_met{sys}) > 0.5",
-                "event.delta_R_ll{sys}           < 1.8"
-            ],
-            "catDYHmet" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}   <= 1" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "event.met_pt{sys}      <  100" ,
-                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
-                "abs(1 - event.sca_balance{sys}) < 0.4",
-                "abs(event.delta_phi_j_met{sys}) > 0.5",
-                "event.delta_R_ll{sys}           < 1.8"
-            ],
             "cat3L": [
                 "(event.lep_category{sys} == 4) | (event.lep_category{sys} == 5)",
                 "event.Z_pt{sys}        >  30" ,
@@ -323,45 +260,45 @@ class MonoZ(WSProducer):
                 "abs(1 -event.emulatedMET{sys}/event.Z_pt{sys}) < 0.4"
 #                "abs(event.emulatedMET_phi{sys} - event.Z_phi{sys}) > 2.6"
             ],
-#            "cat4L": [
-#                "(event.lep_category{sys} == 6) | (event.lep_category{sys} == 7)",
-#                "event.Z_pt{sys}        >  60" ,
-#                "abs(event.Z_mass{sys} - 91.1876) < 35",
-#                "event.ngood_jets{sys}  >=  2" ,
-#		        "abs(event.emulatedMET_phi{sys} - event.Z_phi{sys}) > 2.6",
-#            ],
-            "catNRB": [
-                "event.lep_category{sys} == 2",
-                "event.Z_pt{sys}        >  45" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}   <= 1" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.met_pt{sys}      >  70"
+            "cat4L": [
+                "(event.lep_category{sys} == 6) | (event.lep_category{sys} == 7)",
+                "event.Z_pt{sys}        >  60" ,
+                "abs(event.Z_mass{sys} - 91.1876) < 35",
+                "event.ngood_jets{sys}  <=  1" ,
+		        "abs(event.emulatedMET_phi{sys} - event.Z_phi{sys}) > 2.6",
             ],
-            "catTOP": [
-                "event.lep_category{sys} == 2",
-                "event.Z_pt{sys}        >  30" ,
-                "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
-#                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  >   2" ,
-                "event.ngood_bjets{sys} >=  1" ,
-                "event.met_pt{sys}      >  70"
-            ],
-            "catWW": [
-                "event.lep_category{sys} ==2",
-                "event.Z_pt{sys} > 45", 
-                "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
-                "event.ngood_jets{sys}  <= 1",
-                "event.ngood_bjets{sys} == 0",
-                "event.met_pt{sys}       >70",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8"
-            ],
-            "catEM": [
-                "event.lep_category{sys} == 2",
-                "self.passbut(event, excut, 'catNRB')"
-            ],
+             "catEM": [
+                 "event.lep_category{sys} == 2",
+                 "event.Z_pt{sys}        >  45" ,
+                 "abs(event.Z_mass{sys} - 91.1876) < 15",
+                 "event.ngood_jets{sys}   <= 1" ,
+                 "event.ngood_bjets{sys} ==  0" ,
+                 "event.met_pt{sys}      >  70"
+             ],
+#             "catTOP": [
+#                 "event.lep_category{sys} == 2",
+#                 "event.Z_pt{sys}        >  30" ,
+#                 "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
+# #                "abs(event.Z_mass{sys} - 91.1876) < 15",
+#                 "event.ngood_jets{sys}  >   2" ,
+#                 "event.ngood_bjets{sys} >=  1" ,
+#                 "event.met_pt{sys}      >  70"
+#             ],
+            # "catWW": [
+            #     "event.lep_category{sys} ==2",
+            #     "event.Z_pt{sys} > 45", 
+            #     "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
+            #     "event.ngood_jets{sys}  <= 1",
+            #     "event.ngood_bjets{sys} == 0",
+            #     "event.met_pt{sys}       >70",
+            #     "abs(event.delta_phi_ZMet{sys} ) > 0.5",
+            #     "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
+            #     "(event.met_pt{sys}/event.Z_pt{sys})<1.8"
+            # ],
+            # "catEM": [
+            #     "event.lep_category{sys} == 2",
+            #     "self.passbut(event, excut, 'catNRB')"
+            # ],
 
         }
 

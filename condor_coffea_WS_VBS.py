@@ -92,7 +92,7 @@ if float(options.nevt) > 0:
     pre_selection += ' && (Entry$ < {})'.format(options.nevt)
 
 pro_syst = ["ElectronEn", "MuonEn", "jesTotal", "jer"]
-ext_syst = ["puWeight", "PDF", "MuonSF", "ElecronSF", "EWK", "nvtxWeight", "TriggerSFWeight", "btagEventWeight",
+ext_syst = ["puWeight", "PDF", "MuonSF", "ElecronSF", "EWK", "TriggerSFWeight", "btagEventWeight",
             "QCDScale0w", "QCDScale1w", "QCDScale2w"]
 
 modules_era = []

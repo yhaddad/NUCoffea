@@ -131,9 +131,9 @@ def main():
             time.sleep(10)
             #eosoutdir = eosbase.format(tag=options.tag,sample=sample_name).replace(group_base,my_base)
             if options.isVBS :
-                my_eos_space="/eos/user/y/yixiao/BDT/{tag}/VBS/{sample}/"
+                my_eos_space="/eos/user/y/yixiao/NNmodel/{tag}/VBS_for_finalfit/{sample}/"
             else:
-                my_eos_space="/eos/user/y/yixiao/{tag}/ZZ_inclusive/{sample}/"
+                my_eos_space="/eos/user/y/yixiao/{tag}/ZZ_inclusive_FFF/{sample}/"
             eosoutdir = my_eos_space.format(tag=options.tag+"_WS",sample=sample_name)
             # crete a directory on eos
 #            if '/eos/user' in eosoutdir:
@@ -167,8 +167,9 @@ def main():
                             "../condor_coffea_WS_VBS.py",
 #                            "../BDTmodel"
                             "../nnmodel",
-                            "../exactly2Jets.h5",
-                            "../atLeast3Jets.h5"
+                            "../exactly2Jets.hdf5",
+                            "../atLeast3Jets.hdf5",
+                            "../qt_scaler.save"
 #                           "../xsections_2017.yaml",
 #                           "../combineHLT_Run2.yaml",
 #                           "../keep_and_drop_WS.txt",
@@ -180,10 +181,10 @@ def main():
                 else:
                     condor = condor_TEMPLATE.format(
                         transfer_file= ",".join([
-#                            "../condor_coffea_WS_ZZinclusive.py",
-                            "../nnmodel",
-                            "../exactly2Jets.h5",
-                            "../atLeast3Jets.h5"
+                            "../condor_coffea_WS_ZZinclusive.py",
+#                            "../nnmodel",
+#                            "../exactly2Jets.hdf5",
+#                            "../atLeast3Jets.hdf5"
 #                           "../xsections_2017.yaml",
 #                           "../keep_and_drop_WS.txt",
 #                           "../haddnano.py"

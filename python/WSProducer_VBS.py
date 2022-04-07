@@ -9,12 +9,16 @@ import awkward as ak
 import numpy as np
 import awkward
 import yaml
+import os
+from sklearn.preprocessing import QuantileTransformer
 
 from tensorflow import keras
 from keras import backend as K
 from keras.layers import Input,InputLayer, Activation, Dense, Dropout, BatchNormalization, Lambda
 from keras.models import Sequential, Model, clone_model
 from keras.optimizers import SGD, Adam, Adadelta, Adagrad
+
+import uproot
 
 class WSProducer(ProcessorABC):
     """
@@ -55,8 +59,8 @@ class WSProducer(ProcessorABC):
         return K.maximum(K.minimum(X,100-3*X),0)
 
     def get_models(self):
-        NINPUT_3J = 27
-        NINPUT_2J = 22
+        NINPUT_3J = 19
+        NINPUT_2J = 15
 
         print('====================')
         print('loading models...')
@@ -71,7 +75,7 @@ class WSProducer(ProcessorABC):
         weights_2J = Input((1,), name='weights_2J')
 
         h_3J = BatchNormalization()(nn_input_3J)
-        X_3J = Dense((200), name='hidden_1')(h_3J)
+        X_3J = Dense((100), name='hidden_1')(h_3J)
         h_3J = Lambda(self.custom_relu, name='custom_relu')(X_3J)
         (out_z_3J)=Dense((1), name='out_z_3J')(h_3J)
         out_3J = Activation('sigmoid',name='out_3J')(out_z_3J)
@@ -95,6 +99,7 @@ class WSProducer(ProcessorABC):
         model_2J.compile(optimizer=optim_2J, loss=None, weighted_metrics=['accuracy'])
 
         return model_3J, model_2J
+    
 
     def process(self, df, *args):
         output = self.accumulator.identity()
@@ -102,15 +107,22 @@ class WSProducer(ProcessorABC):
         weight = self.weighting(df)
         # NN scores (array)
         nn_score_2J,nn_score_3J = self.get_nn_scores(df)
+        print(nn_score_2J)
         case_2J=df['ngood_jets'] == 2
         case_3J=df['ngood_jets'] >=3
         nn_score=[-1]*len(case_2J)
         for i in range(len(case_2J)):
             if case_2J[i]:
-                nn_score[i]=nn_score_2J[i][0]
+                nn_score[i]=nn_score_2J[i]
             elif case_3J[i]:
-                nn_score[i]=nn_score_3J[i][0]
+                nn_score[i]=nn_score_3J[i]
         df['nnscore']=nn_score
+
+        import joblib
+
+        scaler_filename = 'qt_scaler.save'
+        qt_scaler = joblib.load(scaler_filename)
+        df['nnscoreFlat'] = qt_scaler.transform(ak.to_numpy(df['nnscore']).reshape(-1, 1)).flatten()
 
         for h, hist in list(self.histograms.items()):
             for region in hist['region']:
@@ -136,93 +148,193 @@ class WSProducer(ProcessorABC):
     
 class MonoZ(WSProducer):
     histograms = {
-        'h_bal': {
-            'target': 'sca_balance',
-            'name': 'balance',  # name to write to histogram
-            'region': ['signal'],
-            'axis': {'label': 'sca_balance', 'n_or_arr': 100, 'lo': 0, 'hi': 2}
-        },
-        'h_phi': {
-            'target': 'delta_phi_ZMet',
-            'name': 'phizmet',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
-            'axis': {'label': 'delta_phi_ZMet','n_or_arr':16 ,'lo': -3.2, 'hi': 3.2}
-        },
-        'h_njet': {
-            'target': 'ngood_jets',
-            'name': 'njet',
-            'region': ['catDY','signal'],
-            'axis': {'label': 'ngood_jets', 'n_or_arr': 6, 'lo': 0, 'hi': 6}
-        },
+#         'h_bal': {
+#             'target': 'sca_balance',
+#             'name': 'balance',  # name to write to histogram
+#             'region': ['signal'],
+#             'axis': {'label': 'sca_balance', 'n_or_arr': 100, 'lo': 0, 'hi': 2}
+#         },
+         'h_phi': {
+             'target': 'delta_phi_ZMet',
+             'name': 'phizmet',
+             'region': ['signal',
+ #                       'catNRB',
+ #                       'catTOP',
+                        'catDY','cat3L','catEM','cat4L'
+ #                       'catWW',
+ #                       'cat4Jet'
+                        ],
+             'axis': {'label': 'delta_phi_ZMet','n_or_arr':16 ,'lo': -3.2, 'hi': 3.2}
+         },
+         'h_njet': {
+             'target': 'ngood_jets',
+             'name': 'njet',
+             'region': ['catDY','signal','cat3L','cat4L','catEM'],
+             'axis': {'label': 'ngood_jets', 'n_or_arr': 6, 'lo': 0, 'hi': 6}
+         },
 
-        'h_dijet_abs_dEta': {
+          'h_dijet_abs_dEta': {
             'target': 'dijet_abs_dEta',
             'name': 'dijet_abs_dEta',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY','cat3L','catEM','cat4L'
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label':  'dijet_abs_dEta' , 'n_or_arr':20, 'lo':0, 'hi':10}
         }, 
         
         'h_dijet_Mjj': {
             'target': 'dijet_Mjj',
             'name': 'dijet_Mjj',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY',
+                       'cat3L',
+                       'catEM',
+                       'cat4L'
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label': 'dijet_Mjj', 'n_or_arr':15, 'lo':0, 'hi':1500}
-       }, 
+        }, 
         'h_measMET': {
             'target': 'met_pt',
             'name': 'measMET',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','cat4Jet'],
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY','catEM'
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label': 'met_pt','n_or_arr': [50, 100, 125, 150, 175, 200, 250, 300, 350, 400, 500, 600, 1000]}
         },
         'h_emuMET': {
             'target': 'emulatedMET',
             'name': 'measMET',
-            'region': ['signal',
-                       'cat3L',
-                       'catWW',
-                       'catEM','cat4Jet'],
+            'region': ['cat3L',
+                       'cat4L',
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label': 'emulated_met_pt','n_or_arr': [50, 100, 125, 150, 175, 200, 250, 300, 350, 400, 500, 600, 1000]}
         },
         'h_mT': {
             'target': 'MT',
             'name': 'measMT',
-            'region': ['signal','cat3L','catNRB','catTOP','catDY','catEM','catWW','cat4Jet'],
-            'axis': {'label': 'MET','n_or_arr': [0, 100, 200, 250, 300, 350, 400, 500, 600, 700, 800, 1000, 1200, 2000]}
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY',
+                       'catEM',
+                       'cat3L',
+                       'cat4L'
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
+            'axis': {'label': 'MT','n_or_arr': [0, 100, 200, 250, 300, 350, 400, 500, 600, 700, 800, 1000, 1200, 2000]}
         },
         'h_emu_mT': {
             'target': 'MT',
             'name': 'emuMT',
-            'region': ['signal',
-                       'catNRB','catTOP','catDY',
+            'region': [
+#                       'catNRB',
+#                       'catTOP',
                        'cat3L',
-                       'catWW',
-                       'catEM','cat4Jet'],
+                       'cat4L',
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label': 'emulated_MT','n_or_arr': [0, 100, 200, 250, 300, 350, 400, 500, 600, 700, 800, 1000, 1200, 2000]}
         },
         'h_Z_pt': {
             'target': 'Z_pt',
             'name': 'Z_pt',
             'region': ['signal',
-                       'catNRB','catTOP','catDY',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY',
                        'catEM',
-                       'cat3L','catWW','cat4Jet'],
+                       'cat3L',
+                       'cat4L'
+#                       'catWW',
+#                       'cat4Jet'
+                       ],
             'axis': {'label': 'Z_pt','n_or_arr': 20, 'lo':0, 'hi':1000}
-        },
-        'h_Z_mass': {
-            'target': 'Z_mass',
-            'name': 'Z_mass',
-            'region': ['signal',
-                       'catNRB','catTOP','catDY',
-                       'catEM',
-                       'cat3L','catWW','cat4Jet'],
-            'axis': {'label': 'Z_mass','n_or_arr': 80, 'lo':50, 'hi':130}
-        },
+         },
+        # 'h_Z_mass': {
+        #     'target': 'Z_mass',
+        #     'name': 'Z_mass',
+        #     'region': ['signal',
+        #                'catNRB','catTOP','catDY',
+        #                'catEM',
+        #                'cat3L','catWW','cat4Jet'],
+        #     'axis': {'label': 'Z_mass','n_or_arr': 80, 'lo':50, 'hi':130}
+        # },
         'h_nnscore' : {
             'target': 'nnscore',
             'name': 'nnscore',
-            'region': ['signal','catNRB','catTOP','catDY','cat3L','catWW','catEM','signal-01J','signal-2J','signal-3J','cat4Jet'],
-            'axis': {'label': 'nnscore','n_or_arr':150, 'lo':-1.5, 'hi':1.5}
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY',
+                       'cat3L',
+                       'cat4L',
+#                       'catWW',
+                       'catEM',
+#                       'signal-01J',
+#                       'signal-2J',
+#                       'signal-3J',
+#                       'cat4Jet',
+#                       'preselction'
+                       ],
+            'axis': {'label': 'nnscore','n_or_arr':30, 'lo':-1, 'hi':1}
         },
+
+        'h_nnscoreFlat' : {
+            'target': 'nnscoreFlat',
+            'name': 'nnscoreFlat',
+            'region': ['signal',
+#                       'catNRB',
+#                       'catTOP',
+                       'catDY',
+                       'cat3L',
+#                       'catWW',
+                       'catEM',
+                       'cat4L'
+#                       'signal-01J',
+#                       'signal-2J',
+#                       'signal-3J',
+#                       'cat4Jet',
+#                       'preselction'
+                       ],
+            'axis': {'label': 'nnscore','n_or_arr':30, 'lo':-1, 'hi':1}
+        },
+
+#         'h_dijet_Zep' : {
+#             'target': 'dijet_Zep',
+#             'name': 'dijet_Zep',
+#             'region': ['signal',
+# #                       'catNRB',
+# #                       'catTOP',
+#                        'catDY',
+#                        'cat3L',
+# #                       'catWW',
+#                        'catEM',
+#                        'cat4L'
+# #                       'signal-01J',
+# #                       'signal-2J',
+# #                       'signal-3J',
+# #                       'cat4Jet',
+# #                       'preselction'
+#                        ],
+#             'axis': {'label': 'nnscore','n_or_arr':30, 'lo':-1, 'hi':1}
+#         },
+
 
     }
 
@@ -234,67 +346,43 @@ class MonoZ(WSProducer):
                 "event.ngood_jets{sys}  >= 2" ,
                 "event.ngood_bjets{sys} ==  0" ,
                 "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
+                "event.met_pt{sys}      >  100" ,
+                # or 70?
+#                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
+#                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
+#                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
                 "event.dijet_Mjj{sys}                  > 400",
                 "event.dijet_abs_dEta{sys}             > 2.5"
             ],
-            "cat4Jet" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  >= 4" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-                "event.dijet_Mjj{sys}                  > 400",
-                "event.dijet_abs_dEta{sys}             > 2.5"
-            ],
-            "signal-01J" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  < 2" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-            ],
-            "signal-2J" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  == 2" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-                "event.dijet_Mjj{sys}                  > 400",
-                "event.dijet_abs_dEta{sys}             > 2.5",
-            ],
-            "signal-3J" : [
-                "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
-                "event.Z_pt{sys}        >  60" ,
-                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  > 2" ,
-                "event.ngood_bjets{sys} ==  0" ,
-                "event.nhad_taus{sys}   ==  0" ,
-                "event.met_pt{sys}      >  70" ,
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-                "event.dijet_Mjj{sys}                  > 400",
-                "event.dijet_abs_dEta{sys}             > 2.5",
-            ],
+
+            # "signal-2J" : [
+            #     "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
+            #     "event.Z_pt{sys}        >  60" ,
+            #     "abs(event.Z_mass{sys} - 91.1876) < 15",
+            #     "event.ngood_jets{sys}  == 2" ,
+            #     "event.ngood_bjets{sys} ==  0" ,
+            #     "event.nhad_taus{sys}   ==  0" ,
+            #     "event.met_pt{sys}      >  70" ,
+            #     "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
+            #     "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
+            #     "abs(event.delta_phi_ZMet{sys} ) > 0.5",
+            #     "event.dijet_Mjj{sys}                  > 400",
+            #     "event.dijet_abs_dEta{sys}             > 2.5",
+            # ],
+            # "signal-3J" : [
+            #     "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
+            #     "event.Z_pt{sys}        >  60" ,
+            #     "abs(event.Z_mass{sys} - 91.1876) < 15",
+            #     "event.ngood_jets{sys}  > 2" ,
+            #     "event.ngood_bjets{sys} ==  0" ,
+            #     "event.nhad_taus{sys}   ==  0" ,
+            #     "event.met_pt{sys}      >  70" ,
+            #     "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
+            #     "(event.met_pt{sys}/event.Z_pt{sys})<1.8",
+            #     "abs(event.delta_phi_ZMet{sys} ) > 0.5",
+            #     "event.dijet_Mjj{sys}                  > 400",
+            #     "event.dijet_abs_dEta{sys}             > 2.5",
+            # ],
             "catDY" : [
                 "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
                 "event.Z_pt{sys}        >  60" ,
@@ -303,11 +391,12 @@ class MonoZ(WSProducer):
                 "event.ngood_bjets{sys} ==  0" ,
                 "event.nhad_taus{sys}   ==  0" ,
                 "event.met_pt{sys}      >  50" ,
-                "event.met_pt{sys}      <  100" ,
-                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
-                "abs(1 - event.sca_balance{sys}) < 0.4",
-                "abs(event.delta_phi_j_met{sys}) > 0.5",
-                "event.delta_R_ll{sys}           < 1.8"
+                "event.met_pt{sys}      <  100",
+                "event.dijet_Mjj{sys}   < 200",
+#                "abs(event.delta_phi_ZMet{sys} ) < 0.5",
+#                "abs(1 - event.sca_balance{sys}) < 0.4",
+#                "abs(event.delta_phi_j_met{sys}) > 0.5",
+#                "event.delta_R_ll{sys}           < 1.8"
             ],
             "cat3L": [
                 "(event.lep_category{sys} == 4) | (event.lep_category{sys} == 5)",
@@ -317,17 +406,17 @@ class MonoZ(WSProducer):
                 "event.ngood_bjets{sys} ==  0" ,
                 "event.met_pt{sys}      >  70" ,
 #                "event.mass_alllep{sys} > 100" ,
-                "abs(1 -event.emulatedMET{sys}/event.Z_pt{sys}) < 0.4"
+#                "abs(1 -event.emulatedMET{sys}/event.Z_pt{sys}) < 0.4"
 #                "abs(event.emulatedMET_phi{sys} - event.Z_phi{sys}) > 2.6"
             ],
-#            "cat4L": [
-#                "(event.lep_category{sys} == 6) | (event.lep_category{sys} == 7)",
-#                "event.Z_pt{sys}        >  60" ,
-#                "abs(event.Z_mass{sys} - 91.1876) < 35",
-#                "event.ngood_jets{sys}  >=  2" ,
+           "cat4L": [
+               "(event.lep_category{sys} == 6) | (event.lep_category{sys} == 7)",
+               "event.Z_pt{sys}        >  60" ,
+               "abs(event.Z_mass{sys} - 91.1876) < 35",
+               "event.ngood_jets{sys}  >=  2" ,
 #		        "abs(event.emulatedMET_phi{sys} - event.Z_phi{sys}) > 2.6",
-#            ],
-            "catNRB": [
+           ],
+            "catEM": [
                 "event.lep_category{sys} == 2",
                 "event.Z_pt{sys}        >  45" ,
                 "abs(event.Z_mass{sys} - 91.1876) < 15",
@@ -335,101 +424,101 @@ class MonoZ(WSProducer):
                 "event.ngood_bjets{sys} ==  0" ,
                 "event.met_pt{sys}      >  70"
             ],
-            "catTOP": [
-                "event.lep_category{sys} == 2",
-                "event.Z_pt{sys}        >  30" ,
-                "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
-#                "abs(event.Z_mass{sys} - 91.1876) < 15",
-                "event.ngood_jets{sys}  >   2" ,
-                "event.ngood_bjets{sys} >=  1" ,
-                "event.met_pt{sys}      >  70"
-            ],
-            "catWW": [
-                "event.lep_category{sys} ==2",
-                "event.Z_pt{sys} > 45", 
-                "((event.Z_mass > 40) & (event.Z_mass < 70)) | ((event.Z_mass > 110) & (event.Z_mass < 200))",
-                "event.ngood_jets{sys}  >= 2",
-                "event.ngood_bjets{sys} == 0",
-                "event.met_pt{sys}       >70",
-                "abs(event.delta_phi_ZMet{sys} ) > 0.5",
-                "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
-                "(event.met_pt{sys}/event.Z_pt{sys})<1.8"
-            ],
-            "catEM": [
-                "event.lep_category{sys} == 2",
-                "self.passbut(event, excut, 'catNRB')"
-            ],
+#             "catTOP": [
+#                 "event.lep_category{sys} == 2",
+#                 "event.Z_pt{sys}        >  30" ,
+#                 "((event.Z_mass{sys} > 40) & (event.Z_mass{sys} < 70)) | ((event.Z_mass{sys} > 110) & (event.Z_mass{sys} < 200))",
+# #                "abs(event.Z_mass{sys} - 91.1876) < 15",
+#                 "event.ngood_jets{sys}  >   2" ,
+#                 "event.ngood_bjets{sys} >=  1" ,
+#                 "event.met_pt{sys}      >  70"
+#             ],
+#             "catWW": [
+#                 "event.lep_category{sys} ==2",
+#                 "event.Z_pt{sys} > 45", 
+#                 "((event.Z_mass{sys} > 40) & (event.Z_mass{sys} < 70)) | ((event.Z_mass{sys} > 110) & (event.Z_mass{sys} < 200))",
+#                 "event.ngood_jets{sys}  >= 2",
+#                 "event.ngood_bjets{sys} == 0",
+#                 "event.met_pt{sys}       >70",
+#                 "abs(event.delta_phi_ZMet{sys} ) > 0.5",
+#                 "(event.met_pt{sys}/event.Z_pt{sys})>0.4",
+#                 "(event.met_pt{sys}/event.Z_pt{sys})<1.8"
+#             ],
+            # "catEM": [
+            #     "event.lep_category{sys} == 2",
+            #     "self.passbut(event, excut, 'catNRB')"
+            # ],
+            # "preselction": [
+            #     "(event.lep_category{sys} == 1) | (event.lep_category{sys} == 3)",
+            #     "event.dijet_Mjj{sys}                  > 400",
+            #     "(event.Z_mass{sys} > 81) & (event.Z_mass{sys} < 110)",
+            #     "event.met_pt{sys} > 85",
+            #     "event.dijet_abs_dEta{sys} > 1.5",
+            #     "event.ngood_bjets{sys} == 0"
+
+            # ],
 
         }
 
     def get_nn_scores(self, event):
-        feature_2j = ['lep_category','ngood_bjets','lead_jet_pt','trail_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta']
-        feature_3j = ['lep_category','ngood_jets','ngood_bjets','lead_jet_pt','trail_jet_pt','third_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','third_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','third_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta']
-        # hard coded
-        print('###########################')
-        print(self.era)
-        print(type(self.era))
-        if int(self.era) == 2016:
-            year = 0
-        elif int(self.era) == 2017:
-            year = 1
-        elif int(self.era) == 2018:
-            year = 2
-        else:
-            print('error in designated year')
-        print(year)
-        print(type(year))
+        feature_2j = ['ngood_bjets',
+        'met_pt', 'met_phi', 'leading_lep_pt',
+       'leading_lep_eta', 'leading_lep_phi', 'trailing_lep_pt',
+       'trailing_lep_eta', 'trailing_lep_phi', 'lead_jet_pt',
+       'lead_jet_eta', 'lead_jet_phi', 'trail_jet_pt', 'trail_jet_eta',
+       'trail_jet_phi']
+        feature_3j = ['ngood_jets', 'ngood_bjets',
+       'met_pt', 'met_phi', 'leading_lep_pt',
+       'leading_lep_eta', 'leading_lep_phi', 'trailing_lep_pt',
+       'trailing_lep_eta', 'trailing_lep_phi', 'lead_jet_pt',
+       'lead_jet_eta', 'lead_jet_phi', 'trail_jet_pt', 'trail_jet_eta',
+       'trail_jet_phi', 'third_jet_pt', 'third_jet_eta', 'third_jet_phi']
+
         model_3J, model_2J = self.get_models()
 
-        model_2J.load_weights('exactly2Jets.h5')
-        model_3J.load_weights('atLeast3Jets.h5')
+        model_2J.load_weights('exactly2Jets.hdf5')
+        model_3J.load_weights('atLeast3Jets.hdf5')
+        
 
         df_2J = event[feature_2j]
-#        print(df_2J)
         df_2J = ak.to_pandas(df_2J)
-        df_2J['dilep_abs_dEta'] = abs(df_2J['leading_lep_eta']- df_2J['trailing_lep_eta'])
-#        print("df_2J_2")
-#        print(df_2J)
-        df_2J['year'] = year
-#        print("df_2J_plusyear")
-#        print(df_2J)
-        df_2J = df_2J[['lep_category','ngood_bjets','lead_jet_pt','trail_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta','year']]
-#        print("df_2J_sorted")
-#        print(df_2J)
+        df_2J = df_2J[['ngood_bjets',
+        'met_pt', 'met_phi', 'leading_lep_pt',
+        'leading_lep_eta', 'leading_lep_phi', 'trailing_lep_pt',
+        'trailing_lep_eta', 'trailing_lep_phi', 'lead_jet_pt',
+        'lead_jet_eta', 'lead_jet_phi', 'trail_jet_pt', 'trail_jet_eta',
+        'trail_jet_phi']]
         df_2J['filler_weight'] = -1
         df_2J['filler_target'] = -1
-#
-        input_2J = df_2J.to_numpy()
-#        print("input_2J")
-#        print(input_2J)
-        nn_input_1_2J = input_2J[:,0:22]
-        nn_input_2_2J = input_2J[:,22]
-        nn_input_3_2J = input_2J[:,23]
-        print("nn_input_1_2J")
-        print(nn_input_1_2J)
-#        print("nn_input_2_2J")
-#        print(nn_input_2_2J)
-#        print("nn_input_3_2J")
-#        print(nn_input_3_2J)
 
-        nn_score_2J = model_2J.predict([nn_input_1_2J,nn_input_2_2J,nn_input_3_2J])
-        print(nn_score_2J)
+        input_2J = df_2J.to_numpy()
+
+        nn_input_1_2J = input_2J[:,0:15]
+        nn_input_2_2J = input_2J[:,15]
+        nn_input_3_2J = input_2J[:,16]
+
+
+#        nn_score_2J = model_2J.predict([nn_input_1_2J,nn_input_2_2J,nn_input_3_2J])
         df_3J = event[feature_3j]
         df_3J = ak.to_pandas(df_3J)
-        df_3J['year'] = year
-        df_3J['dilep_abs_dEta'] = abs(df_3J['leading_lep_eta']- df_3J['trailing_lep_eta'])
-        df_3J = df_3J[['lep_category','ngood_jets','ngood_bjets','lead_jet_pt','trail_jet_pt','third_jet_pt','leading_lep_pt','trailing_lep_pt','lead_jet_eta','trail_jet_eta','third_jet_eta','leading_lep_eta','trailing_lep_eta','lead_jet_phi','trail_jet_phi','third_jet_phi','leading_lep_phi','trailing_lep_phi','met_pt','met_phi','delta_phi_j_met','delta_phi_ZMet','Z_mass','dijet_Mjj','dijet_abs_dEta','dilep_abs_dEta','year']]
+        df_3J = df_3J[['ngood_jets', 'ngood_bjets',
+        'met_pt', 'met_phi', 'leading_lep_pt',
+        'leading_lep_eta', 'leading_lep_phi', 'trailing_lep_pt',
+        'trailing_lep_eta', 'trailing_lep_phi', 'lead_jet_pt',
+        'lead_jet_eta', 'lead_jet_phi', 'trail_jet_pt', 'trail_jet_eta',
+        'trail_jet_phi', 'third_jet_pt', 'third_jet_eta', 'third_jet_phi']]
         df_3J['filler_weight'] = -1
         df_3J['filler_target'] = -1
-#        print(df_3J)
 
         input_3J = df_3J.to_numpy()
+        
+        nn_input_1_3J = input_3J[:,0:19]
+        nn_input_2_3J = input_3J[:,19]
+        nn_input_3_3J = input_3J[:,20]
 
-        nn_input_1_3J = input_3J[:,0:27]
-        nn_input_2_3J = input_3J[:,27]
-        nn_input_3_3J = input_3J[:,28]
-
-        nn_score_3J = model_3J.predict([nn_input_1_3J,nn_input_2_3J,nn_input_3_3J])
+#        nn_score_3J = model_3J.predict([nn_input_1_3J,nn_input_2_3J,nn_input_3_3J])
+        nn_score_2J = model_2J.predict([nn_input_1_2J,nn_input_2_2J,nn_input_3_2J]).flatten()
+        nn_score_3J = model_3J.predict([nn_input_1_3J,nn_input_2_3J,nn_input_3_3J]).flatten()
         return nn_score_2J, nn_score_3J
 
 

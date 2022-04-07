@@ -24,7 +24,7 @@ def main():
             jobs_dir = '_'.join(['jobs', options.tag, sample_name])
 
             njobs = len(open(jobs_dir + "/" + "inputfiles.dat").readlines())
-            nfile = len(list(glob.glob("/eos/cms/store/group/phys_smp/ZZTo2L2Nu/VBS/yixiao/{}_WS_2018/{}/*.root".format(options.tag, sample_name))))
+            nfile = len(list(glob.glob("/eos/user/y/yixiao/NNmodel/{}_WS/VBS_11/{}/*.root".format(options.tag, sample_name))))
 
             #for file in list(glob.glob(jobs_dir + '/*.log')):
             #    jobid = os.path.basename(file).split('.log')
